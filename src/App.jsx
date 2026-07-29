@@ -16,17 +16,34 @@ function ScrollToTop() {
 
 function Header() {
     const [menuOpen, setMenuOpen] = useState(false)
+    const [compact, setCompact] = useState(false)
     const location = useLocation()
 
     useEffect(() => {
         setMenuOpen(false)
     }, [location.pathname])
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const shouldCompact = window.innerWidth > 900 && window.scrollY > 70
+            setCompact(shouldCompact)
+        }
+
+        handleScroll()
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        window.addEventListener('resize', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            window.removeEventListener('resize', handleScroll)
+        }
+    }, [])
+
     const toggleMenu = () => setMenuOpen((open) => !open)
     const closeMenu = () => setMenuOpen(false)
 
     return (
-        <header className="top-header">
+        <header className={`top-header ${compact ? 'compact' : ''}`}>
             <div className="brand-block">
                 <img
                     src="/asset/logo.png"
@@ -57,10 +74,22 @@ function Header() {
 }
 
 function Footer({ openPopup }) {
+    const [activeLocationIndex, setActiveLocationIndex] = useState(0)
+    const locations = company.offices.filter((office) => office.coordinates)
+    const activeLocation = locations[activeLocationIndex] || locations[0]
+
+    const goToPrevious = () => {
+        setActiveLocationIndex((index) => (index === 0 ? locations.length - 1 : index - 1))
+    }
+
+    const goToNext = () => {
+        setActiveLocationIndex((index) => (index + 1) % locations.length)
+    }
+
     return (
         <footer className="footer">
             <div className="footer-grid">
-                <div className="footer-column">
+                <div className="footer-column footer-brand-column">
                     <div className="brand-block footer-brand">
                         <img
                             src="/asset/logo.png"
@@ -72,7 +101,11 @@ function Footer({ openPopup }) {
                             <p>{company.slogan}</p>
                         </div>
                     </div>
-                    <p className="footer-copy">{company.description}</p>
+                    <div className="footer-newsletter-block">
+                        <h4>Newsletter</h4>
+                        <p>Stay updated with our latest campaigns, projects, and announcements.</p>
+                        <NewsletterSignup openPopup={openPopup} />
+                    </div>
                 </div>
 
                 <div className="footer-column">
@@ -91,10 +124,33 @@ function Footer({ openPopup }) {
                     <p><strong>Alt:</strong> {company.alternatePhone}</p>
                 </div>
 
-                <div className="footer-column">
-                    <h4>Newsletter</h4>
-                    <p>Sign up for our latest news & articles. We won’t give you spam mails.</p>
-                    <NewsletterSignup openPopup={openPopup} />
+                <div className="footer-column footer-map-column">
+                    <div className="footer-map-header">
+                        <h4>Our Locations</h4>
+                    </div>
+
+                    {locations.length > 1 && (
+                        <div className="footer-map-nav" aria-label="Location selector">
+                            <button type="button" onClick={goToPrevious} aria-label="Show previous location">‹</button>
+                            <span className="footer-map-location-name" aria-live="polite">
+                                <span className="footer-map-city">{activeLocation?.city}</span>
+                                <span className="footer-map-title">{activeLocation?.title}</span>
+                            </span>
+                            <button type="button" onClick={goToNext} aria-label="Show next location">›</button>
+                        </div>
+                    )}
+
+                    {activeLocation && (
+                        <>
+                            <iframe
+                                title="Jyoti Advertisement locations"
+                                className="footer-map"
+                                src={`https://www.google.com/maps?q=${activeLocation.coordinates.lat},${activeLocation.coordinates.lng}&z=14&output=embed`}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            />
+                        </>
+                    )}
                 </div>
             </div>
 
@@ -112,7 +168,7 @@ function Footer({ openPopup }) {
 }
 
 function ContactForm({ openPopup }) {
-    const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
+    const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', message: '' })
     const [sending, setSending] = useState(false)
 
     const handleChange = (e) => {
@@ -130,11 +186,11 @@ function ContactForm({ openPopup }) {
                 form,
                 'NBSW8n_wWmCawGZmx'
             )
-            openPopup('Inquiry Received', 'Thank you — your message is on its way. We will contact you soon.')
-            setForm({ name: '', email: '', phone: '', message: '' })
+            openPopup?.('Inquiry Received', 'Thank you — your message is on its way. We will contact you soon.')
+            setForm({ name: '', email: '', phone: '', company: '', message: '' })
         } catch (err) {
             console.error(err)
-            openPopup('Submission Failed', 'We could not send your inquiry. Please try again later.')
+            openPopup?.('Submission Failed', 'We could not send your inquiry. Please try again later.')
         } finally {
             setSending(false)
         }
@@ -156,7 +212,7 @@ function ContactForm({ openPopup }) {
             </label>
             <label>
                 Message
-                <textarea name="message" rows="4" placeholder="Tell us about your project" value={form.message} onChange={handleChange} required />
+                <textarea name="message" rows="3" placeholder="Tell us about your project" value={form.message} onChange={handleChange} required />
             </label>
             <button type="submit" className="btn btn-primary" disabled={sending}>{sending ? 'Sending...' : 'Send Inquiry'}</button>
         </form>
@@ -207,6 +263,100 @@ function NewsletterSignup({ openPopup }) {
                 {sending ? 'Signing up...' : 'Sign Up'}
             </button>
         </form>
+    )
+}
+
+function ContactDetailsCard({ showLimitedHighlights = false }) {
+    const highlights = showLimitedHighlights ? company.contactHighlights.slice(0, 3) : company.contactHighlights
+
+    return (
+        <div className="contact-card">
+            <h3>Reach Us</h3>
+            <p className="contact-intro">{company.contactSummary}</p>
+            <div className="contact-detail-block">
+                <span className="contact-label">Email</span>
+                <a href={`mailto:${company.email}`} className="contact-link">{company.email}</a>
+            </div>
+            <div className="contact-detail-block">
+                <span className="contact-label">Phone</span>
+                <a href={`tel:${company.phone}`} className="contact-link">{company.phone}</a>
+            </div>
+            <div className="contact-detail-block">
+                <span className="contact-label">Coverage</span>
+                <p>{company.coverage}</p>
+            </div>
+            <ul className="contact-highlights">
+                {highlights.map((item) => (
+                    <li key={item}>{item}</li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+function WorkCarousel({ works, onViewAll }) {
+    const [activeIndex, setActiveIndex] = useState(0)
+    const activeWork = works[activeIndex] || works[0]
+
+    useEffect(() => {
+        setActiveIndex(0)
+    }, [works.length])
+
+    const goToPrev = () => {
+        setActiveIndex((index) => (index === 0 ? works.length - 1 : index - 1))
+    }
+
+    const goToNext = () => {
+        setActiveIndex((index) => (index + 1) % works.length)
+    }
+
+    if (!works.length) return null
+
+    return (
+        <div className="work-carousel-shell">
+            <div className="work-carousel-nav">
+                <button type="button" className="carousel-btn" onClick={goToPrev} aria-label="Previous work">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                        <path d="M15 6 L9 12 L15 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                    </svg>
+                </button>
+                <div className="carousel-progress" aria-label={`Work ${activeIndex + 1} of ${works.length}`}>
+                    {works.map((_, index) => (
+                        <span key={index} className={index === activeIndex ? 'progress-dot active' : 'progress-dot'} />
+                    ))}
+                </div>
+                <button type="button" className="carousel-btn" onClick={goToNext} aria-label="Next work">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                        <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                    </svg>
+                </button>
+            </div>
+
+            <div className="work-carousel-card">
+                <div className="work-carousel-media">
+                    <img src={activeWork.images[0]} alt={activeWork.title} className="work-carousel-image" />
+                    {activeWork.images.length > 1 && (
+                        <div className="work-thumbnail-row">
+                            {activeWork.images.slice(0, 4).map((image, index) => (
+                                <img key={`${activeWork.title}-${index}`} src={image} alt={`${activeWork.title} view ${index + 1}`} className="work-thumbnail" />
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                <div className="work-carousel-copy">
+                    <p className="eyebrow">Featured Work</p>
+                    <h3>{activeWork.title}</h3>
+                    <p className="work-carousel-description">{activeWork.description}</p>
+                    <div className="work-meta">
+                        <span>{activeWork.client}</span>
+                        <span>{activeWork.location}</span>
+                        <span>{activeWork.year}</span>
+                    </div>
+                    <button type="button" className="btn btn-secondary" onClick={onViewAll}>See all work done by us</button>
+                </div>
+            </div>
+        </div>
     )
 }
 
@@ -277,10 +427,21 @@ function HomePage({ openPopup }) {
                     </div>
                 </section>
 
+                <section id="featured-work" className="section alt-section">
+                    <div className="section-heading">
+                        <p className="eyebrow">Featured Work</p>
+                        <h2>Selected campaigns, public events, and brand activations delivered with precision.</h2>
+                    </div>
+                    <WorkCarousel works={company.workShowcase || []} onViewAll={() => navigate('/work')} />
+                </section>
+
                 <section id="about" className="section">
                     <div className="section-heading">
                         <p className="eyebrow">About Us</p>
-                        <h2>Trusted advertising partner with manufacturing strength, premium execution, and pan-India reach.</h2>
+                        <h2>
+                            Trusted advertising partner with manufacturing strength, premium execution, and<br />
+                            pan-India reach for ambitious brands.
+                        </h2>
                     </div>
                     <div className="card-grid">
                         <article className="card">
@@ -316,13 +477,8 @@ function HomePage({ openPopup }) {
                         <h2>Start a conversation with our team.</h2>
                     </div>
                     <div className="contact-grid">
-                        <div className="contact-card">
-                            <h3>Reach Us</h3>
-                            <p><strong>Email:</strong> {company.email}</p>
-                            <p><strong>Phone:</strong> {company.phone}</p>
-                            <p><strong>Alt:</strong> {company.alternatePhone}</p>
-                        </div>
-                        <ContactForm />
+                        <ContactDetailsCard showLimitedHighlights />
+                        <ContactForm openPopup={openPopup} />
                     </div>
                 </section>
             </main>
@@ -433,6 +589,20 @@ function ServiceImageCarousel({ images, alt }) {
 }
 
 function InfrastructurePage() {
+    const locations = (company.offices || []).filter((office) => office.coordinates)
+    const [activeLocationIndex, setActiveLocationIndex] = useState(0)
+    const activeLocation = locations[activeLocationIndex] || locations[0]
+
+    useEffect(() => {
+        if (locations.length <= 1) return
+
+        const timer = window.setInterval(() => {
+            setActiveLocationIndex((current) => (current + 1) % locations.length)
+        }, 5000)
+
+        return () => window.clearInterval(timer)
+    }, [locations.length])
+
     return (
         <main className="page-content">
             <section className="section">
@@ -459,39 +629,70 @@ function InfrastructurePage() {
                     <h2>Industrial-grade in-house production for premium campaigns and faster delivery.</h2>
                     <p className="page-copy">Our manufacturing units at Jind and Goa are equipped to handle printing, fabrication, and branding requirements at scale. Our branch office at Mohali enables smooth client coordination, project management, and regional execution.</p>
                 </div>
-                <div className="card-grid">
-                    {company.offices.map((office) => (
-                        <article key={office.city} className="card">
-                            <h3>{office.city}</h3>
-                            <p>{office.title}</p>
-                            <p>{office.address}</p>
-                        </article>
-                    ))}
+
+                <div className="location-map-section">
+                    <div className="location-card-list">
+                        {locations.map((office, index) => (
+                            <button
+                                key={office.city}
+                                type="button"
+                                className={`location-choice-card ${index === activeLocationIndex ? 'active' : ''}`}
+                                onClick={() => setActiveLocationIndex(index)}
+                            >
+                                <span className="location-pill">{office.city}</span>
+                                <strong>{office.title}</strong>
+                                <p>{office.address}</p>
+                            </button>
+                        ))}
+                    </div>
+
+                    {activeLocation && (
+                        <div className="location-map-shell">
+                            <div className="location-map-header">
+                                <div>
+                                    <p className="eyebrow">Live Location</p>
+
+                                </div>
+                                <span className="map-auto-badge">{activeLocation.city} • {activeLocation.title}</span>
+                            </div>
+                            <iframe
+                                title={`${activeLocation.city} location map`}
+                                className="location-map-iframe"
+                                src={`https://www.google.com/maps?q=${activeLocation.coordinates.lat},${activeLocation.coordinates.lng}&z=13&output=embed`}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            />
+                        </div>
+                    )}
                 </div>
             </section>
         </main>
     )
 }
 
-function TestimonialsPage() {
+function WorkPage() {
     return (
         <main className="page-content">
             <section className="section">
-                <p className="eyebrow">Testimonials</p>
-                <h2>Trusted by government bodies and leading brands for high-impact campaigns.</h2>
-                <div className="card-grid">
-                    <article className="card">
-                        <h3>Government-Scale Deployments</h3>
-                        <p>We have supported large-scale public campaigns and official branding programs across Haryana and neighboring states with reliable execution.</p>
-                    </article>
-                    <article className="card">
-                        <h3>Corporate Visibility Campaigns</h3>
-                        <p>From transit branding to retail activations, our teams deliver premium execution that drives stronger brand presence and customer recall.</p>
-                    </article>
-                    <article className="card">
-                        <h3>Flagship Projects</h3>
-                        <p>Our portfolio includes G-20 Summit outdoor branding, bus wraps, mobile activations, and campaigns executed across multiple cities and retail networks.</p>
-                    </article>
+                <div className="section-heading">
+                    <p className="eyebrow">Our Work</p>
+                    <h2>Selected client projects, public events, and brand campaigns.</h2>
+                </div>
+                <div className="work-grid">
+                    {company.workShowcase.map((work) => (
+                        <article key={work.title} className="work-card">
+                            <img src={work.images[0]} alt={work.title} className="work-card-image" />
+                            <div className="work-card-content">
+                                <span className="location-pill">{work.client}</span>
+                                <h3>{work.title}</h3>
+                                <p>{work.description}</p>
+                                <div className="work-meta">
+                                    <span>{work.location}</span>
+                                    <span>{work.year}</span>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
                 </div>
             </section>
         </main>
@@ -507,7 +708,7 @@ function CareerPage() {
                 <p className="page-copy">We welcome professionals who are passionate about execution, design, client coordination, and quality delivery in the advertising space. Join us to be part of campaigns that shape visibility for leading brands and government initiatives.</p>
                 <p className="page-copy">
                     Interested in job opportunities with Jyoti Advertisement?{' '}
-                    <a href="/contact" className="btn btn-secondary" style={{ display: 'inline-block', marginTop: '0.5rem' }}>
+                    <a href="/contact" className="career-link">
                         Apply by contacting us here
                     </a>
                 </p>
@@ -525,12 +726,7 @@ function ContactPage({ openPopup }) {
                     <h2>Reach the Jyoti Advertisement team.</h2>
                 </div>
                 <div className="contact-grid">
-                    <div className="contact-card">
-                        <h3>Get in touch</h3>
-                        <p><strong>Email:</strong> {company.email}</p>
-                        <p><strong>Phone:</strong> {company.phone}</p>
-                        <p><strong>Alt:</strong> {company.alternatePhone}</p>
-                    </div>
+                    <ContactDetailsCard />
                     <ContactForm openPopup={openPopup} />
                 </div>
             </section>
@@ -559,7 +755,7 @@ function App() {
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/services" element={<ServicesPage />} />
                     <Route path="/infrastructure" element={<InfrastructurePage />} />
-                    <Route path="/testimonials" element={<TestimonialsPage />} />
+                    <Route path="/work" element={<WorkPage />} />
                     <Route path="/career" element={<CareerPage />} />
                     <Route path="/contact" element={<ContactPage openPopup={openPopup} />} />
                 </Routes>
