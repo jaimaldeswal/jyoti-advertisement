@@ -167,14 +167,37 @@ function Footer({ openPopup }) {
                 </div>
             </div>
 
-            <div className="office-grid">
-                {company.offices.map((office) => (
-                    <div key={office.city} className="office-card">
-                        <h5>{office.city}</h5>
-                        <p>{office.title}</p>
-                        <span>{office.address}</span>
+            <div className="footer-office-layout">
+                <div className="footer-office-list">
+                    {company.offices.map((office) => (
+                        <div key={office.city} className="footer-office-item">
+                            <span className="footer-office-text">
+                                <strong>{office.title}</strong> - {office.address}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="footer-contact-side">
+                    <div className="footer-contact-block">
+                        <h4>Contact Details</h4>
+                        <p><strong>Email:</strong> {company.email}</p>
+                        <p><strong>Phone:</strong> {company.phone}</p>
+                        <p><strong>Alt:</strong> {company.alternatePhone}</p>
                     </div>
-                ))}
+
+                    <div className="footer-socials">
+                        <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook">
+                            <img src="/asset/footer/icons8-facebook-50.svg" alt="Facebook" />
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+                            <img src="/asset/footer/icons8-instagram-50.svg" alt="Instagram" />
+                        </a>
+                        <a href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
+                            <img src="/asset/footer/icons8-youtube-50.svg" alt="YouTube" />
+                        </a>
+                    </div>
+                </div>
             </div>
         </footer>
     )
@@ -225,7 +248,7 @@ function ContactForm({ openPopup }) {
             </label>
             <label>
                 Message
-                <textarea name="message" rows="3" placeholder="Tell us about your project" value={form.message} onChange={handleChange} required />
+                <textarea name="message" rows="3" placeholder="Describe Your Requirement" value={form.message} onChange={handleChange} required />
             </label>
             <button type="submit" className="btn btn-primary" disabled={sending}>{sending ? 'Sending...' : 'Send Inquiry'}</button>
         </form>
@@ -488,7 +511,7 @@ function HomePage({ openPopup }) {
 
                 <section id="featured-work" className="section alt-section">
                     <div className="section-heading">
-                        <p className="eyebrow">Featured Projects</p>
+                        <Link to="/portfolio" className="eyebrow section-eyebrow-link">Featured Projects</Link>
                         <h2>Selected campaigns, public events, and brand activations delivered with precision.</h2>
                     </div>
                     <WorkCarousel works={(company.workShowcase || []).slice(0, 4)} onViewAll={() => navigate('/portfolio')} />
@@ -496,7 +519,7 @@ function HomePage({ openPopup }) {
 
                 <section id="about" className="section">
                     <div className="section-heading">
-                        <p className="eyebrow">About Us</p>
+                        <Link to="/about" className="eyebrow section-eyebrow-link">About Us</Link>
                         <h2>
                             Trusted advertising partner with manufacturing strength, premium execution, and<br />
                             pan-India reach for ambitious brands.
@@ -520,7 +543,7 @@ function HomePage({ openPopup }) {
 
                 <section className="section client-showcase-section">
                     <div className="section-heading">
-                        <p className="eyebrow">Client Partnerships</p>
+                        <Link to="/portfolio" className="eyebrow section-eyebrow-link">Client Partnerships</Link>
                         <h2>Trusted by a wide range of brands, institutions, and organizers across the region.</h2>
                     </div>
                     <div className="client-logos-grid">
@@ -559,7 +582,7 @@ function HomePage({ openPopup }) {
 
                 <section id="services" className="section alt-section">
                     <div className="section-heading">
-                        <p className="eyebrow">Services</p>
+                        <Link to="/services" className="eyebrow section-eyebrow-link">Services</Link>
                         <h2>End-to-end advertising solutions designed to make your brand impossible to ignore.</h2>
                     </div>
                     <div className="service-list">
@@ -571,13 +594,17 @@ function HomePage({ openPopup }) {
 
                 <section id="contact" className="section contact-section">
                     <div className="section-heading">
-                        <p className="eyebrow">Contact</p>
+                        <Link to="/contact" className="eyebrow section-eyebrow-link">Contact</Link>
                         <h2>Start a conversation with our team.</h2>
                     </div>
                     <div className="contact-grid">
                         <ContactDetailsCard showLimitedHighlights />
                         <ContactForm openPopup={openPopup} />
                     </div>
+                </section>
+
+                <section className="page-quote-strip">
+                    <p className="page-quote-text">“<span className="quote-accent">TRUST</span> is built through precision, teamwork, and delivery.”</p>
                 </section>
             </main>
         </>
@@ -601,11 +628,17 @@ function AboutPage() {
                     ))}
                 </div>
             </section>
+
+            <section className="page-quote-strip">
+                <p className="page-quote-text">“A strong <span className="quote-accent">BRAND</span> grows when vision, craft, and consistency come together.”</p>
+            </section>
         </main>
     )
 }
 
 function ServicesPage() {
+    const [previewService, setPreviewService] = useState(null)
+
     return (
         <main className="page-content">
             <section className="section">
@@ -620,7 +653,13 @@ function ServicesPage() {
                         return (
                             <article key={service} className="card service-card">
                                 <div className="service-carousel">
-                                    <ServiceImageCarousel images={images} alt={service} />
+                                    <ServiceImageCarousel
+                                        images={images}
+                                        alt={service}
+                                        title={service}
+                                        description={description}
+                                        onOpenPreview={(index) => setPreviewService({ title: service, description, images, index })}
+                                    />
                                 </div>
                                 <div className="service-info">
                                     <h3>{service}</h3>
@@ -631,11 +670,25 @@ function ServicesPage() {
                     })}
                 </div>
             </section>
+
+            {previewService && (
+                <ServicePreviewModal
+                    title={previewService.title}
+                    description={previewService.description}
+                    images={previewService.images}
+                    startIndex={previewService.index || 0}
+                    onClose={() => setPreviewService(null)}
+                />
+            )}
+
+            <section className="page-quote-strip">
+                <p className="page-quote-text">“Every <span className="quote-accent">SOLUTION</span> is stronger when strategy, craft, and execution align.”</p>
+            </section>
         </main>
     )
 }
 
-function ServiceImageCarousel({ images, alt }) {
+function ServiceImageCarousel({ images, alt, onOpenPreview }) {
     const [currentIndex, setCurrentIndex] = useState(0)
     const safeImages = Array.isArray(images) ? images.filter(Boolean) : []
     const imageCount = safeImages.length
@@ -662,7 +715,20 @@ function ServiceImageCarousel({ images, alt }) {
 
     return (
         <div className="carousel-shell">
-            <img src={safeImages[currentIndex]} alt={`${alt} view ${currentIndex + 1}`} className="service-image" />
+            <img
+                src={safeImages[currentIndex]}
+                alt={`${alt} view ${currentIndex + 1}`}
+                className="service-image"
+                onClick={() => onOpenPreview?.(currentIndex)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault()
+                        onOpenPreview?.(currentIndex)
+                    }
+                }}
+            />
             <div className="carousel-controls">
                 <button className="carousel-btn prev" onClick={goToPrev} disabled={currentIndex === 0} aria-label="Previous image">
                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
@@ -681,6 +747,60 @@ function ServiceImageCarousel({ images, alt }) {
                         <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                     </svg>
                 </button>
+            </div>
+        </div>
+    )
+}
+
+function ServicePreviewModal({ title, description, images, startIndex, onClose }) {
+    const safeImages = Array.isArray(images) ? images.filter(Boolean) : []
+    const [currentIndex, setCurrentIndex] = useState(startIndex || 0)
+
+    useEffect(() => {
+        setCurrentIndex(startIndex || 0)
+    }, [startIndex])
+
+    const goToPrev = () => {
+        setCurrentIndex((index) => (index > 0 ? index - 1 : safeImages.length - 1))
+    }
+
+    const goToNext = () => {
+        setCurrentIndex((index) => (index < safeImages.length - 1 ? index + 1 : 0))
+    }
+
+    if (!safeImages.length) return null
+
+    return (
+        <div className="service-preview-overlay" onClick={onClose}>
+            <div className="service-preview-modal" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true" aria-label={`${title} gallery`}>
+                <button type="button" className="service-preview-close" onClick={onClose} aria-label="Close preview">×</button>
+
+                <div className="service-preview-media">
+                    <img src={safeImages[currentIndex]} alt={`${title} view ${currentIndex + 1}`} className="service-preview-image" />
+                    <div className="service-preview-controls">
+                        <button type="button" className="carousel-btn prev" onClick={goToPrev} aria-label="Previous image">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                                <path d="M15 6 L9 12 L15 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            </svg>
+                        </button>
+                        <button type="button" className="carousel-btn next" onClick={goToNext} aria-label="Next image">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                                <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div className="service-preview-copy">
+                    <p className="eyebrow">Service Gallery</p>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                    <div className="service-preview-dots" aria-label={`Image ${currentIndex + 1} of ${safeImages.length}`}>
+                        {safeImages.map((_, index) => (
+                            <span key={index} className={index === currentIndex ? 'progress-dot active' : 'progress-dot'} />
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -776,6 +896,10 @@ function InfrastructurePage() {
                     )}
                 </div>
             </section>
+
+            <section className="page-quote-strip">
+                <p className="page-quote-text">“Every <span className="quote-accent">CAMPAIGN</span> is shaped by clarity, creativity, and commitment.”</p>
+            </section>
         </main>
     )
 }
@@ -849,11 +973,27 @@ function WorkPage() {
     return (
         <main className="page-content">
             <section className="section">
+                <div className="portfolio-banner-shell" aria-label="Portfolio showcase banner">
+                    <div className="portfolio-banner-track">
+                        <img
+                            src="/asset/portfolio/a_professional_high_fidelity_panoramic_portfolio_showcase_banner_for_jyoti.png"
+                            alt="Jyoti Advertisement portfolio showcase banner"
+                            className="portfolio-banner-image"
+                        />
+                        <img
+                            src="/asset/portfolio/a_professional_high_fidelity_panoramic_portfolio_showcase_banner_for_jyoti.png"
+                            alt="Jyoti Advertisement portfolio showcase banner"
+                            className="portfolio-banner-image"
+                        />
+                    </div>
+                </div>
+
                 <div className="section-heading work-page-heading">
                     <p className="eyebrow">Our Work</p>
                     <h2>Campaigns that turned visibility into impact for brands, institutions, and high-profile public events.</h2>
                     <p className="page-copy">Each project reflects our commitment to premium execution, on-ground coordination, and striking visual communication across outdoor, transit, and public-facing environments.</p>
                 </div>
+
                 <div className="work-grid">
                     {visibleWorks.map((work, index) => (
                         <WorkPortfolioCard key={work.title} work={work} index={startIndex + index} />
@@ -886,6 +1026,10 @@ function WorkPage() {
                     </div>
                 )}
             </section>
+
+            <section className="page-quote-strip">
+                <p className="page-quote-text">“The best <span className="quote-accent">RESULTS</span> come from a team that believes in excellence.”</p>
+            </section>
         </main>
     )
 }
@@ -904,6 +1048,10 @@ function CareerPage() {
                     </Link>
                 </p>
             </section>
+
+            <section className="page-quote-strip">
+                <p className="page-quote-text">“Great <span className="quote-accent">CAREERS</span> are built when talent, purpose, and teamwork meet.”</p>
+            </section>
         </main>
     )
 }
@@ -920,6 +1068,10 @@ function ContactPage({ openPopup }) {
                     <ContactDetailsCard />
                     <ContactForm openPopup={openPopup} />
                 </div>
+            </section>
+
+            <section className="page-quote-strip">
+                <p className="page-quote-text">“Every <span className="quote-accent">CONVERSATION</span> is the beginning of a trusted partnership.”</p>
             </section>
         </main>
     )
@@ -1067,7 +1219,7 @@ function FloatingAssistant({ openPopup }) {
                                 name="message"
                                 className="assistant-textarea"
                                 rows="3"
-                                placeholder="Tell us what you need"
+                                placeholder="Describe Your Requirement"
                                 value={assistantForm.message}
                                 onChange={handleAssistantChange}
                             />
