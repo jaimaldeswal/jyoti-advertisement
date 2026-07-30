@@ -4,6 +4,20 @@ export const company = {
     tagline: 'Your Complete Advertising Partner for Outdoor, Transit, Print, and Branding Excellence',
     description:
         'Jyoti Advertisement Agency is a full-service advertising and marketing firm established in 2013, operating from Zirakpur (Punjab) and Narwana (Haryana). We deliver end-to-end indoor, outdoor, transit, and print solutions with uncompromising quality and strong on-ground execution.',
+    heroCarousel: [
+        {
+            image: 'https://images.ctfassets.net/mrv4un8f5w7i/1nD8i30VLs4OYW0BmYSG6Z/01c2bc4a51ba43ac676c991aec70b7ea/screen19.png',
+            alt: 'Outdoor branding campaign showcase',
+        },
+        {
+            image: 'https://images.ctfassets.net/mrv4un8f5w7i/2XGZQBHF1KqZSG53ZjpArU/4516766807d347891cab790ba87ea46a/screen22.png',
+            alt: 'Premium advertising installation showcase',
+        },
+        {
+            image: 'https://images.ctfassets.net/mrv4un8f5w7i/5rIHbfgPst59AXWV1udLov/64cb68120c35d5f891906abd67343f55/screen23.png',
+            alt: 'Creative branding and display showcase',
+        },
+    ],
     mission:
         'To provide comprehensive advertising and branding solutions that help clients grow their business, strengthen their brand presence, and achieve lasting visibility across markets.',
     vision:
@@ -42,6 +56,7 @@ export const company = {
         'Outdoor Media Solutions': {
             description: 'High-impact outdoor visibility with hoardings, billboards, and premium site branding.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/78FHr6psByxSLYkYMa3ho3/810114af42d86b9db0a1326cbac03b36/screen12.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -51,6 +66,7 @@ export const company = {
         Unipoles: {
             description: 'Bold vertical branding solutions designed to capture attention at traffic-heavy locations.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/7E72MujfF9KD9PR02vWVA1/2a4b1d51068e68a923de00925b27ce9a/screen10.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/13DBDXdYKak0s33FuzDw6C/7a765a2d1e18769fa80f9b969c43ca37/WhatsApp_Image_2026-06-20_at_12.33.15_PM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
@@ -60,6 +76,7 @@ export const company = {
         Hoardings: {
             description: 'Large-format campaign displays built for strong impact across urban and highway locations.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/1gK0p3I37J2yj4MEFVpNYR/482d153b975a5094a50f4c9b760a2ba8/screen16.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -68,6 +85,7 @@ export const company = {
         Billboards: {
             description: 'Strategically placed billboard media with crisp visuals and broad audience reach.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/Z2H4ZShSRM6v2PN0VhQtR/5df194770d35e2e78ae8ef591acff85b/screen14.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -76,6 +94,7 @@ export const company = {
         'Bus Branding': {
             description: 'Full-vehicle wrapping and route-based transit branding for city-wide visibility.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/6sdXcLn4TSxhqf3V9lHkh9/86a70023ce54f4e18e4102fd7014044d/screen15.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -84,6 +103,7 @@ export const company = {
         'Auto Hood Branding': {
             description: 'Compact yet impactful vehicle branding for mobile promotion and local awareness.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/7wG8cvUmkczPcEfRo7aig1/c5b7d3aff77334ba82705c3aa85c7647/screen11.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -92,6 +112,7 @@ export const company = {
         'Mobile Van Promotion': {
             description: 'On-ground promotional campaigns that bring your brand directly to the audience.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/6W6cZapjg9gMhKaqvMPegb/76e94d189b23dc787e36df684ab9a97c/screen13.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -100,6 +121,7 @@ export const company = {
         'Mall & Office Branding': {
             description: 'Interior and exterior branding for retail spaces and commercial environments.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/cCIK9IHe9ulcmbF6z1Eaq/60d504bf9c08fffe3166cfaa40332deb/screen7.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -108,6 +130,7 @@ export const company = {
         'Airport Branding': {
             description: 'Premium brand presence in high-footfall airport environments and premium zones.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/2gmx5liKG7Rt42GNTGiDCz/0c2b2e2cd8b8eb55a6db01b8f707b182/screen3.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -116,6 +139,7 @@ export const company = {
         'Retail Space Transformation': {
             description: 'Immersive retail branding that elevates customer experience and sales impact.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/ad4QU6GNyRzD28R6u4dbW/4733a7c6418afc8a47d58003e57f167d/screen.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -124,6 +148,7 @@ export const company = {
         'Canopies & Standys': {
             description: 'Portable display setups for events, activations, and promotional spaces.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/Wo6eYSIRiyqoG207HJ5wT/92afaa40dd3debc0bc37e77794d0967f/screen5.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -132,6 +157,7 @@ export const company = {
         'Print Production': {
             description: 'High-quality printing for outdoor signage, brochures, and large-format promotional material.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/3zKedIbzTIb2oO4bR4j88W/2e699db146db99f06198fea9e0c63e75/screen4.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -140,6 +166,7 @@ export const company = {
         'Large-format Flex & Vinyl': {
             description: 'Durable and vibrant flex and vinyl graphics for high-visibility campaigns.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/1wtQ8mDtNPprrAGfm9v1ZF/5466d2e66b4a583fde7b2ea441710cc7/screen2.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -148,6 +175,7 @@ export const company = {
         'Brochures, Catalogues & Magazines': {
             description: 'Professional print collateral for brand communication and product storytelling.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/3ZfnLtnXy22vMbW2ooTXFq/14c61fc06e33b810ae312afe7ce71f33/screen8.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -156,6 +184,7 @@ export const company = {
         'Glow Sign Boards': {
             description: 'Illuminated signage built to stand out both day and night.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/4UUsTZ63zz8In7ce5na4sU/2574b1ecae336bf043b20e5cadbb31b0/screen9.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',
@@ -164,6 +193,7 @@ export const company = {
         'ACP Boards & Signage': {
             description: 'Premium signboards and acrylic-based branding solutions with a polished finish.',
             images: [
+                'https://images.ctfassets.net/mrv4un8f5w7i/3pOPQf7I5Sgc1a8293jHoQ/80877986020d4b9292cd231e52c0ba75/screen6.png',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2o48bwdlu9hzpI1V5hZzWs/db6ab8f8b8c97286c76ca34179fb6392/WhatsApp_Unknown_2026-07-27_at_11.17.44_AM_WhatsApp_Image_2026-06-30_at_10.28.35_AM__2_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/2cNMlrkwvVijn2wWG8esxD/9eaccbc66e9f15bcbdb503d4318c3786/WhatsApp_Image_2026-06-20_at_12.33.14_PM__1_.jpeg',
                 'https://images.ctfassets.net/mrv4un8f5w7i/3oIx3eBwGoEWe7dC4wa9r7/4fdf5bad00fbcdfacf3b080915706363/WhatsApp_Image_2026-07-27_at_11.24.42_AM__2_.jpeg',

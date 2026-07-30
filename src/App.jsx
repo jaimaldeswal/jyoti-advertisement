@@ -400,7 +400,10 @@ function WorkCarousel({ works, onViewAll }) {
 function HomePage({ openPopup }) {
     const [showPromo, setShowPromo] = useState(false)
     const [selectedClientImage, setSelectedClientImage] = useState(null)
+    const [activeHeroIndex, setActiveHeroIndex] = useState(0)
     const navigate = useNavigate()
+
+    const heroSlides = company.heroCarousel || []
 
     useEffect(() => {
         const hasSeenPromo = sessionStorage.getItem('jyoti-promo-seen')
@@ -411,6 +414,16 @@ function HomePage({ openPopup }) {
             return () => window.clearTimeout(timer)
         }
     }, [])
+
+    useEffect(() => {
+        if (!heroSlides.length) return
+
+        const timer = window.setInterval(() => {
+            setActiveHeroIndex((current) => (current + 1) % heroSlides.length)
+        }, 3000)
+
+        return () => window.clearInterval(timer)
+    }, [heroSlides.length])
 
     const handleClose = () => {
         sessionStorage.setItem('jyoti-promo-seen', 'true')
@@ -442,6 +455,14 @@ function HomePage({ openPopup }) {
             )}
 
             <header className="hero">
+                <div className="hero-carousel" aria-hidden="true">
+                    {heroSlides.map((slide, index) => (
+                        <div key={`${slide.image}-${index}`} className={`hero-slide ${index === activeHeroIndex ? 'active' : ''}`}>
+                            <img src={slide.image} alt={slide.alt || ''} />
+                        </div>
+                    ))}
+                </div>
+                <div className="hero-overlay" />
                 <div className="hero-content">
                     <p className="eyebrow">{company.name}</p>
                     <h1>{company.tagline}</h1>
@@ -470,7 +491,7 @@ function HomePage({ openPopup }) {
                         <p className="eyebrow">Featured Projects</p>
                         <h2>Selected campaigns, public events, and brand activations delivered with precision.</h2>
                     </div>
-                    <WorkCarousel works={company.workShowcase || []} onViewAll={() => navigate('/portfolio')} />
+                    <WorkCarousel works={(company.workShowcase || []).slice(0, 4)} onViewAll={() => navigate('/portfolio')} />
                 </section>
 
                 <section id="about" className="section">
@@ -683,6 +704,18 @@ function InfrastructurePage() {
     return (
         <main className="page-content">
             <section className="section">
+                <div className="infrastructure-banner">
+                    <img
+                        src="/asset/infrastructure/in_the_provided_production_house_image_data_image_image_4_replace_all.png"
+                        alt="Jyoti Advertisement production house interior"
+                        className="infrastructure-banner-image"
+                    />
+                    <div className="infrastructure-banner-overlay">
+                        <p className="eyebrow">Built for Precision</p>
+                        <h2>Premium production infrastructure designed to elevate every campaign.</h2>
+                    </div>
+                </div>
+
                 <div className="section-heading">
                     <p className="eyebrow">Our Production Setup</p>
                     <h2>Technology that powers premium visibility.</h2>
@@ -747,7 +780,72 @@ function InfrastructurePage() {
     )
 }
 
+function WorkPortfolioCard({ work, index }) {
+    const images = Array.isArray(work.images) ? work.images.filter(Boolean) : []
+    const [activeImage, setActiveImage] = useState(images[0] || '')
+
+    useEffect(() => {
+        setActiveImage(images[0] || '')
+    }, [images[0]])
+
+    return (
+        <article className={`work-card ${index % 2 === 1 ? 'reverse' : ''}`}>
+            <div className="work-card-media">
+                {activeImage ? (
+                    <img src={activeImage} alt={work.title} className="work-card-image" />
+                ) : (
+                    <div className="work-card-image empty-work-image">Project visuals coming soon</div>
+                )}
+                {images.length > 1 && (
+                    <div className="work-card-thumbs">
+                        {images.map((image, imageIndex) => (
+                            <button
+                                key={`${work.title}-${imageIndex}`}
+                                type="button"
+                                className={`work-card-thumb ${image === activeImage ? 'active' : ''}`}
+                                onClick={() => setActiveImage(image)}
+                                aria-label={`View image ${imageIndex + 1} for ${work.title}`}
+                            >
+                                <img src={image} alt={`${work.title} thumbnail ${imageIndex + 1}`} />
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+            <div className="work-card-content">
+                <div className="work-meta">
+                    <span>{work.client}</span>
+                    <span>{work.year}</span>
+                </div>
+                <h3>{work.title}</h3>
+                <p>{work.description}</p>
+                <div className="work-card-footer">
+                    <span>{work.location}</span>
+                </div>
+            </div>
+        </article>
+    )
+}
+
 function WorkPage() {
+    const [currentPage, setCurrentPage] = useState(1)
+    const worksPerPage = 5
+    const totalPages = Math.max(1, Math.ceil((company.workShowcase?.length || 0) / worksPerPage))
+    const startIndex = (currentPage - 1) * worksPerPage
+    const visibleWorks = company.workShowcase.slice(startIndex, startIndex + worksPerPage)
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [])
+
+    const goToPage = (page) => {
+        const nextPage = Math.min(Math.max(1, page), totalPages)
+        if (nextPage !== currentPage) {
+            setCurrentPage(nextPage)
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+        }
+    }
+
     return (
         <main className="page-content">
             <section className="section">
@@ -757,32 +855,36 @@ function WorkPage() {
                     <p className="page-copy">Each project reflects our commitment to premium execution, on-ground coordination, and striking visual communication across outdoor, transit, and public-facing environments.</p>
                 </div>
                 <div className="work-grid">
-                    {company.workShowcase.map((work) => {
-                        const primaryImage = Array.isArray(work.images) ? work.images.filter(Boolean)[0] : ''
-
-                        return (
-                            <article key={work.title} className="work-card">
-                                {primaryImage ? (
-                                    <img src={primaryImage} alt={work.title} className="work-card-image" />
-                                ) : (
-                                    <div className="work-card-image empty-work-image">Project visuals coming soon</div>
-                                )}
-                                <div className="work-card-content">
-                                    <div className="work-meta">
-                                        <span>{work.client}</span>
-                                        <span>{work.year}</span>
-                                    </div>
-                                    <h3>{work.title}</h3>
-                                    <p>{work.description}</p>
-                                    <div className="work-card-footer">
-                                        <span>{work.location}</span>
-                                        <span>{work.images?.length || 0} visuals</span>
-                                    </div>
-                                </div>
-                            </article>
-                        )
-                    })}
+                    {visibleWorks.map((work, index) => (
+                        <WorkPortfolioCard key={work.title} work={work} index={startIndex + index} />
+                    ))}
                 </div>
+
+                {totalPages > 1 && (
+                    <div className="work-pagination" role="navigation" aria-label="Portfolio pagination">
+                        <button type="button" className="work-pagination-btn" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
+                            Previous
+                        </button>
+                        <div className="work-pagination-numbers">
+                            {Array.from({ length: totalPages }, (_, index) => {
+                                const pageNumber = index + 1
+                                return (
+                                    <button
+                                        key={pageNumber}
+                                        type="button"
+                                        className={`work-pagination-number ${pageNumber === currentPage ? 'active' : ''}`}
+                                        onClick={() => goToPage(pageNumber)}
+                                    >
+                                        {pageNumber}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        <button type="button" className="work-pagination-btn" onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
+                            Next
+                        </button>
+                    </div>
+                )}
             </section>
         </main>
     )
