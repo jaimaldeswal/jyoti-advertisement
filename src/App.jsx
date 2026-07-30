@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { BrowserRouter, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Link, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import './styles.css'
 import { company } from './data'
 
@@ -77,6 +77,7 @@ function Footer({ openPopup }) {
     const [activeLocationIndex, setActiveLocationIndex] = useState(0)
     const locations = company.offices.filter((office) => office.coordinates)
     const activeLocation = locations[activeLocationIndex] || locations[0]
+    const location = useLocation()
 
     const goToPrevious = () => {
         setActiveLocationIndex((index) => (index === 0 ? locations.length - 1 : index - 1))
@@ -112,7 +113,19 @@ function Footer({ openPopup }) {
                     <h4>Explore</h4>
                     <ul>
                         {company.navigation.map((item) => (
-                            <li key={item.path}><NavLink to={item.path}>{item.label}</NavLink></li>
+                            <li key={item.path}>
+                                <NavLink
+                                    to={item.path}
+                                    onClick={(event) => {
+                                        if (location.pathname === item.path) {
+                                            event.preventDefault()
+                                            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+                                        }
+                                    }}
+                                >
+                                    {item.label}
+                                </NavLink>
+                            </li>
                         ))}
                     </ul>
                 </div>
@@ -296,64 +309,88 @@ function ContactDetailsCard({ showLimitedHighlights = false }) {
 
 function WorkCarousel({ works, onViewAll }) {
     const [activeIndex, setActiveIndex] = useState(0)
+    const [activeImageIndex, setActiveImageIndex] = useState(0)
+
     const activeWork = works[activeIndex] || works[0]
+    const activeImages = Array.isArray(activeWork?.images) ? activeWork.images.filter(Boolean) : []
+    const currentImage = activeImages[activeImageIndex] || activeImages[0]
 
     useEffect(() => {
         setActiveIndex(0)
+        setActiveImageIndex(0)
     }, [works.length])
 
     const goToPrev = () => {
-        setActiveIndex((index) => (index === 0 ? works.length - 1 : index - 1))
+        const nextIndex = activeIndex === 0 ? works.length - 1 : activeIndex - 1
+        setActiveIndex(nextIndex)
+        setActiveImageIndex(0)
     }
 
     const goToNext = () => {
-        setActiveIndex((index) => (index + 1) % works.length)
+        const nextIndex = (activeIndex + 1) % works.length
+        setActiveIndex(nextIndex)
+        setActiveImageIndex(0)
     }
 
     if (!works.length) return null
 
     return (
         <div className="work-carousel-shell">
-            <div className="work-carousel-nav">
-                <button type="button" className="carousel-btn" onClick={goToPrev} aria-label="Previous work">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
-                        <path d="M15 6 L9 12 L15 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                    </svg>
-                </button>
-                <div className="carousel-progress" aria-label={`Work ${activeIndex + 1} of ${works.length}`}>
-                    {works.map((_, index) => (
-                        <span key={index} className={index === activeIndex ? 'progress-dot active' : 'progress-dot'} />
-                    ))}
-                </div>
-                <button type="button" className="carousel-btn" onClick={goToNext} aria-label="Next work">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
-                        <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                    </svg>
-                </button>
-            </div>
-
             <div className="work-carousel-card">
                 <div className="work-carousel-media">
-                    <img src={activeWork.images[0]} alt={activeWork.title} className="work-carousel-image" />
-                    {activeWork.images.length > 1 && (
+                    {currentImage ? (
+                        <img src={currentImage} alt={activeWork.title} className="work-carousel-image" />
+                    ) : (
+                        <div className="work-carousel-image empty-work-image">Project visuals coming soon</div>
+                    )}
+
+                    {activeImages.length > 1 && (
                         <div className="work-thumbnail-row">
-                            {activeWork.images.slice(0, 4).map((image, index) => (
-                                <img key={`${activeWork.title}-${index}`} src={image} alt={`${activeWork.title} view ${index + 1}`} className="work-thumbnail" />
+                            {activeImages.map((image, index) => (
+                                <button
+                                    key={`${activeWork.title}-${index}`}
+                                    type="button"
+                                    className={`work-thumbnail-btn ${index === activeImageIndex ? 'active' : ''}`}
+                                    onClick={() => setActiveImageIndex(index)}
+                                    aria-label={`Show project image ${index + 1}`}
+                                >
+                                    <img src={image} alt={`${activeWork.title} view ${index + 1}`} className="work-thumbnail" />
+                                </button>
                             ))}
                         </div>
                     )}
                 </div>
 
                 <div className="work-carousel-copy">
-                    <p className="eyebrow">Featured Work</p>
-                    <h3>{activeWork.title}</h3>
-                    <p className="work-carousel-description">{activeWork.description}</p>
-                    <div className="work-meta">
-                        <span>{activeWork.client}</span>
-                        <span>{activeWork.location}</span>
-                        <span>{activeWork.year}</span>
+                    <div className="work-carousel-nav">
+                        <button type="button" className="carousel-btn" onClick={goToPrev} aria-label="Previous work">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                                <path d="M15 6 L9 12 L15 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            </svg>
+                        </button>
+                        <div className="carousel-progress" aria-label={`Work ${activeIndex + 1} of ${works.length}`}>
+                            {works.map((_, index) => (
+                                <span key={index} className={index === activeIndex ? 'progress-dot active' : 'progress-dot'} />
+                            ))}
+                        </div>
+                        <button type="button" className="carousel-btn" onClick={goToNext} aria-label="Next work">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                                <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            </svg>
+                        </button>
                     </div>
-                    <button type="button" className="btn btn-secondary" onClick={onViewAll}>See all work done by us</button>
+
+                    <div className="work-carousel-details">
+                        <p className="eyebrow">Featured Work</p>
+                        <h3>{activeWork.title}</h3>
+                        <p className="work-carousel-description">{activeWork.description}</p>
+                        <div className="work-meta">
+                            <span>{activeWork.client}</span>
+                            <span>{activeWork.location}</span>
+                            <span>{activeWork.year}</span>
+                        </div>
+                        <button type="button" className="btn btn-accent" onClick={onViewAll}>Explore our portfolio</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -362,6 +399,7 @@ function WorkCarousel({ works, onViewAll }) {
 
 function HomePage({ openPopup }) {
     const [showPromo, setShowPromo] = useState(false)
+    const [selectedClientImage, setSelectedClientImage] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -429,10 +467,10 @@ function HomePage({ openPopup }) {
 
                 <section id="featured-work" className="section alt-section">
                     <div className="section-heading">
-                        <p className="eyebrow">Featured Work</p>
+                        <p className="eyebrow">Featured Projects</p>
                         <h2>Selected campaigns, public events, and brand activations delivered with precision.</h2>
                     </div>
-                    <WorkCarousel works={company.workShowcase || []} onViewAll={() => navigate('/work')} />
+                    <WorkCarousel works={company.workShowcase || []} onViewAll={() => navigate('/portfolio')} />
                 </section>
 
                 <section id="about" className="section">
@@ -458,6 +496,45 @@ function HomePage({ openPopup }) {
                         </article>
                     </div>
                 </section>
+
+                <section className="section client-showcase-section">
+                    <div className="section-heading">
+                        <p className="eyebrow">Client Partnerships</p>
+                        <h2>Trusted by a wide range of brands, institutions, and organizers across the region.</h2>
+                    </div>
+                    <div className="client-logos-grid">
+                        {Array.from({ length: 20 }, (_, index) => {
+                            const imageSrc = `/asset/client-${index + 1}.webp`
+                            return (
+                                <button
+                                    key={`client-${index + 1}`}
+                                    type="button"
+                                    className="client-logo-card"
+                                    onClick={() => setSelectedClientImage(imageSrc)}
+                                    aria-label={`Open client image ${index + 1}`}
+                                >
+                                    <img src={imageSrc} alt={`Client ${index + 1}`} />
+                                </button>
+                            )
+                        })}
+                    </div>
+                </section>
+
+                {selectedClientImage && (
+                    <div className="client-lightbox-overlay" onClick={() => setSelectedClientImage(null)}>
+                        <div className="client-lightbox" onClick={(event) => event.stopPropagation()}>
+                            <button
+                                type="button"
+                                className="client-lightbox-close"
+                                onClick={() => setSelectedClientImage(null)}
+                                aria-label="Close client image"
+                            >
+                                ×
+                            </button>
+                            <img src={selectedClientImage} alt="Selected client" />
+                        </div>
+                    </div>
+                )}
 
                 <section id="services" className="section alt-section">
                     <div className="section-heading">
@@ -674,25 +751,37 @@ function WorkPage() {
     return (
         <main className="page-content">
             <section className="section">
-                <div className="section-heading">
+                <div className="section-heading work-page-heading">
                     <p className="eyebrow">Our Work</p>
-                    <h2>Selected client projects, public events, and brand campaigns.</h2>
+                    <h2>Campaigns that turned visibility into impact for brands, institutions, and high-profile public events.</h2>
+                    <p className="page-copy">Each project reflects our commitment to premium execution, on-ground coordination, and striking visual communication across outdoor, transit, and public-facing environments.</p>
                 </div>
                 <div className="work-grid">
-                    {company.workShowcase.map((work) => (
-                        <article key={work.title} className="work-card">
-                            <img src={work.images[0]} alt={work.title} className="work-card-image" />
-                            <div className="work-card-content">
-                                <span className="location-pill">{work.client}</span>
-                                <h3>{work.title}</h3>
-                                <p>{work.description}</p>
-                                <div className="work-meta">
-                                    <span>{work.location}</span>
-                                    <span>{work.year}</span>
+                    {company.workShowcase.map((work) => {
+                        const primaryImage = Array.isArray(work.images) ? work.images.filter(Boolean)[0] : ''
+
+                        return (
+                            <article key={work.title} className="work-card">
+                                {primaryImage ? (
+                                    <img src={primaryImage} alt={work.title} className="work-card-image" />
+                                ) : (
+                                    <div className="work-card-image empty-work-image">Project visuals coming soon</div>
+                                )}
+                                <div className="work-card-content">
+                                    <div className="work-meta">
+                                        <span>{work.client}</span>
+                                        <span>{work.year}</span>
+                                    </div>
+                                    <h3>{work.title}</h3>
+                                    <p>{work.description}</p>
+                                    <div className="work-card-footer">
+                                        <span>{work.location}</span>
+                                        <span>{work.images?.length || 0} visuals</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </article>
-                    ))}
+                            </article>
+                        )
+                    })}
                 </div>
             </section>
         </main>
@@ -708,9 +797,9 @@ function CareerPage() {
                 <p className="page-copy">We welcome professionals who are passionate about execution, design, client coordination, and quality delivery in the advertising space. Join us to be part of campaigns that shape visibility for leading brands and government initiatives.</p>
                 <p className="page-copy">
                     Interested in job opportunities with Jyoti Advertisement?{' '}
-                    <a href="/contact" className="career-link">
+                    <Link to="/contact" className="career-link">
                         Apply by contacting us here
-                    </a>
+                    </Link>
                 </p>
             </section>
         </main>
@@ -731,6 +820,181 @@ function ContactPage({ openPopup }) {
                 </div>
             </section>
         </main>
+    )
+}
+
+function FloatingAssistant({ openPopup }) {
+    const [assistantOpen, setAssistantOpen] = useState(false)
+    const [assistantStep, setAssistantStep] = useState('intro')
+    const [assistantForm, setAssistantForm] = useState({ email: '', phone: '', message: '' })
+    const [assistantSubmitting, setAssistantSubmitting] = useState(false)
+    const location = useLocation()
+
+    const assistantCopy = {
+        '/': {
+            title: 'Let’s connect',
+            message: 'Share your email or phone and we will reach out with the right solution for your brand.'
+        },
+        '/about': {
+            title: 'Interested in our story?',
+            message: 'Leave your contact details and we will guide you through our approach, expertise, and execution strength.'
+        },
+        '/services': {
+            title: 'Need a tailored service?',
+            message: 'Tell us how to reach you and we will help you choose the right advertising and branding support.'
+        },
+        '/infrastructure': {
+            title: 'Curious about our setup?',
+            message: 'Share a number or email and we will connect you with the team behind our production capabilities.'
+        },
+        '/portfolio': {
+            title: 'Looking for inspiration?',
+            message: 'Leave your contact details and we will share the right project examples for your next campaign.'
+        },
+        '/career': {
+            title: 'Explore opportunities',
+            message: 'Send your email or phone and we will be in touch about roles that match your experience.'
+        },
+        '/contact': {
+            title: 'Start the conversation',
+            message: 'Leave either your phone or email and we will get back to you with the right next step.'
+        }
+    }
+
+    const currentAssistantCopy = assistantCopy[location.pathname] || assistantCopy['/']
+
+    const handleAssistantChange = (event) => {
+        const { name, value } = event.target
+        setAssistantForm((prev) => ({ ...prev, [name]: value }))
+    }
+
+    const handleAssistantSubmit = async (event) => {
+        event.preventDefault()
+
+        if (!assistantForm.email.trim() && !assistantForm.phone.trim()) {
+            openPopup?.('Need a contact detail', 'Please enter either your phone number or email address so we can reach you.')
+            return
+        }
+
+        setAssistantSubmitting(true)
+
+        try {
+            await emailjs.send(
+                'service_rertjnw',
+                'template_pcanpoi',
+                {
+                    name: 'Quick Contact',
+                    email: assistantForm.email,
+                    phone: assistantForm.phone,
+                    message: assistantForm.message || 'Quick contact request from the floating assistant.'
+                },
+                'NBSW8n_wWmCawGZmx'
+            )
+
+            openPopup?.('Thanks for reaching out', 'We will get back to you shortly with the right guidance.')
+            setAssistantForm({ email: '', phone: '', message: '' })
+            setAssistantOpen(false)
+            setAssistantStep('intro')
+        } catch (error) {
+            console.error(error)
+            openPopup?.('Connection issue', 'We could not send your details right now. Please try again shortly.')
+        } finally {
+            setAssistantSubmitting(false)
+        }
+    }
+
+    const openAssistantIntro = () => {
+        setAssistantStep('intro')
+        setAssistantOpen(true)
+    }
+
+    const closeAssistant = () => {
+        setAssistantOpen(false)
+        setAssistantStep('intro')
+    }
+
+    return (
+        <div className={`floating-assistant ${assistantOpen ? 'is-open' : 'is-minimized'}`}>
+            {!assistantOpen && (
+                <button
+                    type="button"
+                    className="assistant-toggle"
+                    onClick={openAssistantIntro}
+                    aria-expanded={assistantOpen}
+                    aria-label="Open quick contact panel"
+                >
+                    Need help?
+                </button>
+            )}
+
+            {assistantOpen && (
+                <div className="assistant-panel">
+                    <button type="button" className="assistant-close" onClick={closeAssistant} aria-label="Close assistant">
+                        ×
+                    </button>
+                    <div className="assistant-header">
+                        <h4>{currentAssistantCopy.title}</h4>
+                    </div>
+                    <p className="assistant-message">{currentAssistantCopy.message}</p>
+
+                    {assistantStep === 'intro' ? (
+                        <div className="assistant-actions">
+                            <button type="button" className="assistant-submit" onClick={() => setAssistantStep('form')}>
+                                Contact us
+                            </button>
+                        </div>
+                    ) : (
+                        <form className="assistant-form" onSubmit={handleAssistantSubmit}>
+                            <input
+                                type="email"
+                                name="email"
+                                className="assistant-input"
+                                placeholder="Email address"
+                                value={assistantForm.email}
+                                onChange={handleAssistantChange}
+                            />
+                            <input
+                                type="tel"
+                                name="phone"
+                                className="assistant-input"
+                                placeholder="Phone number"
+                                value={assistantForm.phone}
+                                onChange={handleAssistantChange}
+                            />
+                            <textarea
+                                name="message"
+                                className="assistant-textarea"
+                                rows="3"
+                                placeholder="Tell us what you need"
+                                value={assistantForm.message}
+                                onChange={handleAssistantChange}
+                            />
+                            <button type="submit" className="assistant-submit" disabled={assistantSubmitting}>
+                                {assistantSubmitting ? 'Sending...' : 'Send details'}
+                            </button>
+                        </form>
+                    )}
+                </div>
+            )}
+        </div>
+    )
+}
+
+function WhatsAppFloat() {
+    return (
+        <div className="whatsapp-float" aria-label="WhatsApp contact">
+            <a
+                className="whatsapp-btn"
+                href="https://wa.me/919466963931?text=Hello%2C%20How%20can%20I%20get%20help%3F"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
+            >
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M16.002 2C8.28 2 2 8.28 2 16.002c0 2.478.666 4.797 1.822 6.797L2 30l7.397-1.795A13.94 13.94 0 0016.002 30C23.72 30 30 23.72 30 16.002 30 8.28 23.72 2 16.002 2zm0 25.455a11.41 11.41 0 01-5.826-1.6l-.418-.247-4.392 1.065 1.1-4.277-.272-.44a11.39 11.39 0 01-1.747-6.954C4.78 9.15 9.87 4.545 16.002 4.545c3.02 0 5.857 1.177 7.99 3.314a11.23 11.23 0 013.463 7.99c0 6.233-5.09 11.606-11.453 11.606zm6.29-8.684c-.344-.172-2.035-1.004-2.35-1.119-.315-.115-.545-.172-.773.172-.23.344-.886 1.119-1.087 1.348-.2.23-.4.258-.744.086-.344-.172-1.452-.535-2.766-1.707-1.022-.912-1.712-2.038-1.912-2.383-.2-.344-.021-.53.15-.701.155-.154.344-.4.516-.6.172-.2.23-.344.344-.573.115-.23.058-.43-.029-.602-.086-.172-.773-1.863-1.059-2.551-.279-.67-.562-.579-.773-.59l-.659-.011c-.23 0-.6.086-.916.43-.315.344-1.2 1.177-1.2 2.868s1.229 3.328 1.4 3.557c.172.23 2.42 3.696 5.863 5.184.82.354 1.46.565 1.958.723.823.261 1.572.224 2.164.136.66-.099 2.035-.832 2.322-1.635.287-.803.287-1.491.2-1.635-.086-.143-.315-.23-.659-.4z" />
+                </svg>
+            </a>
+        </div>
     )
 }
 
@@ -755,11 +1019,13 @@ function App() {
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/services" element={<ServicesPage />} />
                     <Route path="/infrastructure" element={<InfrastructurePage />} />
-                    <Route path="/work" element={<WorkPage />} />
+                    <Route path="/portfolio" element={<WorkPage />} />
                     <Route path="/career" element={<CareerPage />} />
                     <Route path="/contact" element={<ContactPage openPopup={openPopup} />} />
                 </Routes>
                 <Footer openPopup={openPopup} />
+                <WhatsAppFloat />
+                <FloatingAssistant openPopup={openPopup} />
                 {popup.open && <PopupModal title={popup.title} message={popup.message} onClose={closePopup} />}
             </div>
         </BrowserRouter>
