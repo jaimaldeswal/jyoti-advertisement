@@ -13,33 +13,33 @@
 
 
 
-    --bg-start: #07131f;
-    --bg-end: #0f2b45;
-    --text-primary: #f8f7f2;
-    --text-secondary: #d5d5d5;
-    --text-muted: #dfe6ec;
-    --accent: #f0c36d;
-    --accent-soft: #f7d79b;
-    --surface: rgba(255, 255, 255, 0.06);
-    --surface-soft: rgba(255, 255, 255, 0.03);
+    --bg-start: #050816;
+    --bg-end: #101a2d;
+    --text-primary: #f3f7ff;
+    --text-secondary: #b9c4d8;
+    --text-muted: #8d97aa;
+    --accent: #5ee7d7;
+    --accent-soft: #8bece0;
+    --surface: rgba(255, 255, 255, 0.07);
+    --surface-soft: rgba(255, 255, 255, 0.05);
     --surface-strong: rgba(255, 255, 255, 0.1);
-    --border: rgba(240, 195, 109, 0.22);
+    --border: rgba(94, 231, 215, 0.2);
     --border-strong: rgba(255, 255, 255, 0.14);
-    --button-bg: #f0c36d;
-    --button-text: #07131f;
-    --accent-bg: rgba(240, 195, 109, 0.16);
-    --accent-border: rgba(240, 195, 109, 0.3);
-    --accent-border-strong: rgba(247, 215, 155, 0.45);
-    --accent-strong: rgba(240, 195, 109, 0.22);
-    --header-bg: linear-gradient(135deg, rgba(7, 19, 31, 0.96) 0%, rgba(15, 43, 69, 0.96) 100%);
-    --header-text: #f8f7f2;
-    --header-border: rgba(255, 255, 255, 0.14);
-    --footer-bg: linear-gradient(135deg, rgba(7, 19, 31, 0.98) 0%, rgba(15, 43, 69, 0.98) 100%);
-    --footer-text: #f8f7f2;
-    --footer-border: rgba(255, 255, 255, 0.14);
-    --hero-panel-bg: rgba(5, 15, 27, 0.24);
-    --hero-panel-border: rgba(255, 255, 255, 0.16);
-    --section-bg: rgba(255, 255, 255, 0.05);
+    --button-bg: #5ee7d7;
+    --button-text: #041019;
+    --accent-bg: rgba(94, 231, 215, 0.16);
+    --accent-border: rgba(94, 231, 215, 0.3);
+    --accent-border-strong: rgba(94, 231, 215, 0.45);
+    --accent-strong: rgba(94, 231, 215, 0.22);
+    --header-bg: linear-gradient(135deg, rgba(8, 12, 24, 0.98) 0%, rgba(16, 26, 45, 0.98) 100%);
+    --header-text: #f3f7ff;
+    --header-border: rgba(94, 231, 215, 0.2);
+    --footer-bg: linear-gradient(135deg, rgba(8, 12, 24, 0.99) 0%, rgba(16, 26, 45, 0.99) 100%);
+    --footer-text: #f3f7ff;
+    --footer-border: rgba(94, 231, 215, 0.2);
+    --hero-panel-bg: rgba(255, 255, 255, 0.08);
+    --hero-panel-border: rgba(94, 231, 215, 0.22);
+    --section-bg: rgba(255, 255, 255, 0.06);
 
 
 
