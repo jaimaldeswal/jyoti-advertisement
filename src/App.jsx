@@ -250,7 +250,7 @@ function ContactForm({ openPopup }) {
                 Message
                 <textarea name="message" rows="3" placeholder="Describe Your Requirement" value={form.message} onChange={handleChange} required />
             </label>
-            <button type="submit" className="btn btn-primary" disabled={sending}>{sending ? 'Sending...' : 'Send Inquiry'}</button>
+            <button type="submit" className="btn btn-primary" disabled={sending}>{sending ? 'Sending...' : 'Send Message'}</button>
         </form>
     )
 }
@@ -385,26 +385,32 @@ function WorkCarousel({ works, onViewAll }) {
                 </div>
 
                 <div className="work-carousel-copy">
-                    <div className="work-carousel-nav">
-                        <button type="button" className="carousel-btn" onClick={goToPrev} aria-label="Previous work">
-                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
-                                <path d="M15 6 L9 12 L15 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                            </svg>
-                        </button>
-                        <div className="carousel-progress" aria-label={`Work ${activeIndex + 1} of ${works.length}`}>
-                            {works.map((_, index) => (
-                                <span key={index} className={index === activeIndex ? 'progress-dot active' : 'progress-dot'} />
-                            ))}
+                    <div className="work-carousel-header">
+                        <div className="work-carousel-nav work-carousel-nav-inline">
+                            <button type="button" className="carousel-btn" onClick={goToPrev} aria-label="Previous work">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                                    <path d="M15 6 L9 12 L15 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                                </svg>
+                            </button>
+
+                            <div className="work-carousel-label-group">
+                                <p className="eyebrow">Featured Work</p>
+                                <div className="carousel-progress" aria-label={`Work ${activeIndex + 1} of ${works.length}`}>
+                                    {works.map((_, index) => (
+                                        <span key={index} className={index === activeIndex ? 'progress-dot active' : 'progress-dot'} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            <button type="button" className="carousel-btn" onClick={goToNext} aria-label="Next work">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
+                                    <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                                </svg>
+                            </button>
                         </div>
-                        <button type="button" className="carousel-btn" onClick={goToNext} aria-label="Next work">
-                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className="arrow-icon">
-                                <path d="M9 6 L15 12 L9 18" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                            </svg>
-                        </button>
                     </div>
 
                     <div className="work-carousel-details">
-                        <p className="eyebrow">Featured Work</p>
                         <h3>{activeWork.title}</h3>
                         <p className="work-carousel-description">{activeWork.description}</p>
                         <div className="work-meta">
@@ -789,17 +795,20 @@ function ServicePreviewModal({ title, description, images, startIndex, onClose }
                             </svg>
                         </button>
                     </div>
+                    <div className="service-preview-dots" aria-label={`Image ${currentIndex + 1} of ${safeImages.length}`}>
+                        {safeImages.map((_, index) => (
+                            <span key={index} className={index === currentIndex ? 'progress-dot active' : 'progress-dot'} />
+                        ))}
+                    </div>
                 </div>
 
                 <div className="service-preview-copy">
                     <p className="eyebrow">Service Gallery</p>
                     <h3>{title}</h3>
                     <p>{description}</p>
-                    <div className="service-preview-dots" aria-label={`Image ${currentIndex + 1} of ${safeImages.length}`}>
-                        {safeImages.map((_, index) => (
-                            <span key={index} className={index === currentIndex ? 'progress-dot active' : 'progress-dot'} />
-                        ))}
-                    </div>
+                </div>
+
+                <div className="service-preview-copy">
                 </div>
             </div>
         </div>
