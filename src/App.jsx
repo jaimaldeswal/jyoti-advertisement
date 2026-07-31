@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import './styles.css'
-// import './var4.css' //change variant
+// import './styles.css'
+import './var4.css' //change variant
 import { company } from './data'
 
 function ScrollToTop() {
