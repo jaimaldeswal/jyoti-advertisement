@@ -643,7 +643,7 @@ function ServicesPage() {
         <main className="page-content">
             <section className="section">
                 <p className="eyebrow">Our Services</p>
-                <h2>Advertising, branding, printing, and promotional solutions.</h2>
+                <h2>Advertising, Branding, Printing, and Promotional solutions.</h2>
                 <div className="service-list services-grid">
                     {company.services.map((service) => {
                         const serviceContent = company.serviceShowcase?.[service] || {}
@@ -964,11 +964,12 @@ function WorkPage() {
 
     const goToPage = (page) => {
         const nextPage = Math.min(Math.max(1, page), totalPages)
-        if (nextPage !== currentPage) {
-            setCurrentPage(nextPage)
-            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-        }
+        setCurrentPage(nextPage)
     }
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    }, [currentPage])
 
     return (
         <main className="page-content">

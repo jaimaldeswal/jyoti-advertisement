@@ -417,11 +417,13 @@ body {
     gap: 0.5rem;
     margin-top: 0.7rem;
     align-items: center;
+    max-width: 420px;
 }
 
 .newsletter-form input,
 .newsletter-box input {
-    flex: 1 1 auto;
+    flex: 1 1 240px;
+    max-width: 260px;
     padding: 0 0.75rem;
     height: 40px;
     border-radius: 8px 0 0 8px;
@@ -440,9 +442,9 @@ body {
 
 .newsletter-form button,
 .newsletter-box button {
-    padding: 0 1rem;
-    height: 40px;
-    min-width: 92px;
+    padding: 0 0.9rem;
+    height: 38px;
+    min-width: 80px;
     border-radius: 0 8px 8px 0;
     border: none;
     background: #f0c36d;
@@ -1079,39 +1081,43 @@ h1 {
 .work-carousel-copy {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 0.9rem;
-    padding: 0.25rem 0.1rem 0.2rem;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    padding: 0.1rem 0.1rem 0.2rem;
 }
 
 .work-carousel-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.6rem;
-    padding: 0.35rem 0;
+    justify-content: flex-start;
+    gap: 0.55rem;
+    padding: 0.15rem 0;
 }
 
 .work-carousel-nav .carousel-progress {
     position: static;
     transform: none;
-    padding: 0.25rem 0.5rem;
+    padding: 0;
+    margin: 0;
 }
 
 .work-carousel-shell .carousel-btn {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
 }
 
 .work-carousel-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    padding-top: 0.2rem;
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 0;
+}
+
+.work-carousel-details h3 {
+    margin-bottom: 0;
 }
 
 .work-carousel-copy h3 {
@@ -1123,14 +1129,16 @@ h1 {
 .work-carousel-description {
     margin: 0;
     color: #dfe6ec;
-    line-height: 1.65;
-    font-size: 0.95rem;
+    line-height: 1.55;
+    font-size: 0.93rem;
+    max-width: 100%;
 }
 
 .work-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.35rem;
+    margin-top: -0.15rem;
 }
 
 .work-meta span,
@@ -1138,12 +1146,12 @@ h1 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.35rem 0.7rem;
+    padding: 0.3rem 0.65rem;
     border-radius: 999px;
     background: rgba(247, 215, 155, 0.16);
     color: #f7d79b;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
     border: 1px solid rgba(247, 215, 155, 0.24);
 }
 
