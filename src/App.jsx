@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import './styles.css'
+// import './var4.css' //change variant
 import { company } from './data'
 
 function ScrollToTop() {
@@ -982,21 +983,22 @@ function WorkPage() {
 
     return (
         <main className="page-content">
-            <section className="section">
-                <div className="portfolio-banner-shell" aria-label="Portfolio showcase banner">
-                    <div className="portfolio-banner-track">
-                        <img
-                            src="/asset/portfolio/a_professional_high_fidelity_panoramic_portfolio_showcase_banner_for_jyoti.png"
-                            alt="Jyoti Advertisement portfolio showcase banner"
-                            className="portfolio-banner-image"
-                        />
-                        <img
-                            src="/asset/portfolio/a_professional_high_fidelity_panoramic_portfolio_showcase_banner_for_jyoti.png"
-                            alt="Jyoti Advertisement portfolio showcase banner"
-                            className="portfolio-banner-image"
-                        />
-                    </div>
+            <div className="portfolio-banner-shell" aria-label="Portfolio showcase banner">
+                <div className="portfolio-banner-track">
+                    <img
+                        src="/asset/portfolio/a_professional_high_fidelity_panoramic_portfolio_showcase_banner_for_jyoti.png"
+                        alt="Jyoti Advertisement portfolio showcase banner"
+                        className="portfolio-banner-image"
+                    />
+                    <img
+                        src="/asset/portfolio/a_professional_high_fidelity_panoramic_portfolio_showcase_banner_for_jyoti.png"
+                        alt="Jyoti Advertisement portfolio showcase banner"
+                        className="portfolio-banner-image"
+                    />
                 </div>
+            </div>
+            <section className="section">
+
 
                 <div className="section-heading work-page-heading">
                     <p className="eyebrow">Our Work</p>
